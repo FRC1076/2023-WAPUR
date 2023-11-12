@@ -8,7 +8,18 @@ TANK = 2
 SWERVE = 3
 
 controllerConfig = {
-    
+    "DRIVER": {
+        "ID": 0,
+        "DEADZONE": DEADZONE,
+        "LEFT_TRIGGER_AXIS": 2,
+        "RIGHT_TRIGGER_AXIS": 3,
+    },
+    "OPERATOR": {
+        "ID": 1,
+        "DEADZONE": DEADZONE,
+        "LEFT_TRIGGER_AXIS": 2,
+        "RIGHT_TRIGGER_AXIS": 3,
+    }
 }
 
 swervometerConfig = {
@@ -46,8 +57,6 @@ dashboardConfig = {
 
 }
 
-bot = {
-    
+robotconfig = {
+    "CONTROLLERS": controllerConfig,
 }
-
-robotconfig = bot

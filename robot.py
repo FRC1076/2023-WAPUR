@@ -15,6 +15,7 @@ from networktables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
+"""
 from swervedrive import SwerveDrive
 from swervemodule import SwerveModule
 from swervemodule import ModuleConfig
@@ -35,17 +36,31 @@ from logger import Logger
 from dashboard import Dashboard
 
 from tester import Tester
+"""
 
 class MyRobot(wpilib.TimedRobot):
 
     def robotInit(self):
+        controllers = self.initControllers(robotconfig["CONTROLLERS"])
+        self.driver = controllers[0]
+        self.operator = controllers[1]
         return
     
     def initLogger(self, dir):
         return #Logger.getLogger(dir)
     
     def initControllers(self, config):
-        return
+        ctrls = []
+        self.log(config)
+        for ctrlConfig in config.values():
+            self.log(ctrlConfig)
+            ctrlID = ctrlConfig['ID']
+            ctrl = wpilib.XboxController(ctrlID)
+            dz = ctrlConfig['DEADZONE']
+            lta = ctrlConfig['LEFT_TRIGGER_AXIS']
+            rta = ctrlConfig['RIGHT_TRIGGER_AXIS']
+            ctrls.append(Controller(ctrl, dz, lta, rta))
+        return ctrls
     
     def initVision(self, config):
         return
