@@ -44,6 +44,7 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
+        self.drivetrain = self.initDrivetrain()
         return
     
     def initLogger(self, dir):
@@ -71,8 +72,19 @@ class MyRobot(wpilib.TimedRobot):
     def initGrabber(self, config):
         return
     
-    def initDrivetrain(self, config):
-        return
+    def initDrivetrain(self):
+        print("initDrivetrain")
+        motor_type = rev.CANSparkMaxLowLevel.MotorType.kBrushless
+        self.motor1 = rev.CANSparkMax(10,motor_type)
+        # self.motor2 = rev.CANSparkMax(2)
+        # self.motor3 = rev.CANSparkMax(3)
+        # self.motor4 = rev.CANSparkMax(4)
+        # left_side = wpilib.MotorControllerGroup([motor1, motor2])
+        # right_side = wpilib.MotorControllerGroup([motor3, motor4])
+
+        # # Create Drivetrain
+        # return wpilib.drive.DifferentialDrive(left_side, right_side)
+        return False
     
     def initAuton(self, config):
         return
@@ -84,6 +96,8 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
+        driver = self.driver.xboxController
+        self.motor1.set(driver.getLeftX()/2)
         return
     
     def teleopDrivetrain(self):
@@ -93,9 +107,13 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def autonomousInit(self): #this or initAuton?
+        self.timer = wpilib.Timer()
+        self.timer.start()
         return
     
     def autonomousPeriodic(self):
+        if self.timer.get() < 1.0:
+            self.motor1.set(0.5)
         return
     
     def teleopManeuver(self):
