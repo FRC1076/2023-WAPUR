@@ -84,7 +84,8 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
-        return
+        operator=self.operator.xboxController
+        print(operator.getLeftBumper())
     
     def teleopDrivetrain(self):
         return
