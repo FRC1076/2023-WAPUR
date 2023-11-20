@@ -84,8 +84,8 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
-        return
-    
+        operator=self.operater.xboxController
+        print(operator.gitleftBumper()) 
     def teleopDrivetrain(self):
         return
     
@@ -111,3 +111,4 @@ if __name__ == "__main__":
     if sys.argv[1] == 'sim':
         TEST_MODE = True
     wpilib.run(MyRobot)
+    
