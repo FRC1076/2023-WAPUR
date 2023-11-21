@@ -10,6 +10,7 @@ import wpimath.controller
 from wpilib import interfaces
 import rev
 import ctre
+from ctre import ControlMode
 from navx import AHRS
 from networktables import NetworkTables
 
@@ -74,13 +75,15 @@ class MyRobot(wpilib.TimedRobot):
     
     def initDrivetrain(self):
         print("initDrivetrain")
-        motor_type = rev.CANSparkMaxLowLevel.MotorType.kBrushless
-        self.motor1 = rev.CANSparkMax(10,motor_type)
-        # self.motor2 = rev.CANSparkMax(2)
-        # self.motor3 = rev.CANSparkMax(3)
-        # self.motor4 = rev.CANSparkMax(4)
-        # left_side = wpilib.MotorControllerGroup([motor1, motor2])
-        # right_side = wpilib.MotorControllerGroup([motor3, motor4])
+        self.motor1 = ctre.TalonSRX(1)
+        
+        self.motor2 = ctre.TalonSRX(2)
+        self.motor3 = ctre.TalonSRX(3)
+        self.motor4 = ctre.TalonSRX(4)
+        self.left_side = wpilib.MotorControllerGroup(self.motor1, self.motor2)
+        self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
+
+        self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
 
         # # Create Drivetrain
         # return wpilib.drive.DifferentialDrive(left_side, right_side)
@@ -97,7 +100,7 @@ class MyRobot(wpilib.TimedRobot):
     
     def teleopPeriodic(self):
         driver = self.driver.xboxController
-        self.motor1.set(driver.getLeftX()/2)
+        self.drive.arcadeDrive(driver.getLeftX()/2, driver.getLeftY()/2)
         return
     
     def teleopDrivetrain(self):
