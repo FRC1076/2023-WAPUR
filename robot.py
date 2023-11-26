@@ -75,11 +75,11 @@ class MyRobot(wpilib.TimedRobot):
     
     def initDrivetrain(self):
         print("initDrivetrain")
-        self.motor1 = ctre.TalonSRX(1)
+        self.motor1 = ctre.WPI_TalonSRX(1)
         
-        self.motor2 = ctre.TalonSRX(2)
-        self.motor3 = ctre.TalonSRX(3)
-        self.motor4 = ctre.TalonSRX(4)
+        self.motor2 = ctre.WPI_TalonSRX(2)
+        self.motor3 = ctre.WPI_TalonSRX(3)
+        self.motor4 = ctre.WPI_TalonSRX(4)
         self.left_side = wpilib.MotorControllerGroup(self.motor1, self.motor2)
         self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
 
