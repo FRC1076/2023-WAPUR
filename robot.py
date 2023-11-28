@@ -16,6 +16,7 @@ from networktables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
+from tankdrive import TankDrive
 """
 from swervedrive import SwerveDrive
 from swervemodule import SwerveModule
@@ -45,7 +46,7 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
-        self.drivetrain = self.initDrivetrain()
+        self.drivetrain = self.initDrivetrain(robotconfig["DRIVETRAIN"])
         return
     
     def initLogger(self, dir):
@@ -73,21 +74,8 @@ class MyRobot(wpilib.TimedRobot):
     def initGrabber(self, config):
         return
     
-    def initDrivetrain(self):
-        print("initDrivetrain")
-        self.motor1 = ctre.WPI_TalonSRX(1)
-        
-        self.motor2 = ctre.WPI_TalonSRX(2)
-        self.motor3 = ctre.WPI_TalonSRX(3)
-        self.motor4 = ctre.WPI_TalonSRX(4)
-        self.left_side = wpilib.MotorControllerGroup(self.motor1, self.motor2)
-        self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
-
-        self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
-
-        # # Create Drivetrain
-        # return wpilib.drive.DifferentialDrive(left_side, right_side)
-        return False
+    def initDrivetrain(self, config):
+        return TankDrive(config)
     
     def initAuton(self, config):
         return
