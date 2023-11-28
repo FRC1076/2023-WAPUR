@@ -10,7 +10,6 @@ import wpimath.controller
 from wpilib import interfaces
 import rev
 import ctre
-from ctre import ControlMode
 from navx import AHRS
 from networktables import NetworkTables
 
@@ -45,7 +44,6 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
-        self.drivetrain = self.initDrivetrain()
         return
     
     def initLogger(self, dir):
@@ -73,34 +71,20 @@ class MyRobot(wpilib.TimedRobot):
     def initGrabber(self, config):
         return
     
-    def initDrivetrain(self):
-        print("initDrivetrain")
-        self.motor1 = ctre.WPI_TalonSRX(1)
+    def initDrivetrain(self, config):
         
-        self.motor2 = ctre.WPI_TalonSRX(2)
-        self.motor3 = ctre.WPI_TalonSRX(3)
-        self.motor4 = ctre.WPI_TalonSRX(4)
-        self.left_side = wpilib.MotorControllerGroup(self.motor1, self.motor2)
-        self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
-
-        self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
-
-        # # Create Drivetrain
-        # return wpilib.drive.DifferentialDrive(left_side, right_side)
-        return False
+        return
     
     def initAuton(self, config):
         return
     
-    def initTeleop(self):
+    def teleopInit(self):
         return
 
     def robotPeriodic(self):
         return True
     
     def teleopPeriodic(self):
-        driver = self.driver.xboxController
-        self.drive.arcadeDrive(driver.getLeftX()/2, driver.getLeftY()/2)
         return
     
     def teleopDrivetrain(self):
@@ -110,13 +94,9 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def autonomousInit(self): #this or initAuton?
-        self.timer = wpilib.Timer()
-        self.timer.start()
         return
     
     def autonomousPeriodic(self):
-        if self.timer.get() < 1.0:
-            self.motor1.set(0.5)
         return
     
     def teleopManeuver(self):
