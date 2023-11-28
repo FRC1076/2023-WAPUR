@@ -10,7 +10,6 @@ import wpimath.controller
 from wpilib import interfaces
 import rev
 import ctre
-from ctre import ControlMode
 from navx import AHRS
 from networktables import NetworkTables
 
@@ -75,20 +74,21 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def initDrivetrain(self, config):
+        
+        return
+    def initDrivetrain(self, config):
         return TankDrive(config)
     
     def initAuton(self, config):
         return
     
-    def initTeleop(self):
+    def teleopInit(self):
         return
 
     def robotPeriodic(self):
         return True
     
     def teleopPeriodic(self):
-        driver = self.driver.xboxController
-        self.drive.arcadeDrive(driver.getLeftX()/2, driver.getLeftY()/2)
         return
     
     def teleopDrivetrain(self):
@@ -98,13 +98,9 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def autonomousInit(self): #this or initAuton?
-        self.timer = wpilib.Timer()
-        self.timer.start()
         return
     
     def autonomousPeriodic(self):
-        if self.timer.get() < 1.0:
-            self.motor1.set(0.5)
         return
     
     def teleopManeuver(self):
