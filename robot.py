@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 
 import wpilib
+import wpimath
 import wpilib.drive
 import wpimath.controller
 from wpilib import interfaces
@@ -98,9 +99,44 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def autonomousInit(self): #this or initAuton?
+        self.autonPidController = wpimath.controller.PIDController(0.01, 0.001, 0.0005)
         return
     
     def autonomousPeriodic(self):
+        #self.gyroAngle = ((self.gyro.getAngle() + 360) % 360)
+        self.gryoAngle = self.gryo.getAngle()
+        self.task = robotconfig["AUTON"]["TASK"]
+        if(self.task == "CRATE"):
+            self.crateForwardTime = robotconfig["AUTON"]["CRATE"]["FORWARD_1"]
+            if(self.timer.get()<self.crateForwardTime):
+                TankDrive.forward(1)
+        if(self.task == "BALL_R"):
+            self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
+            self.ball_rForward_1 = robotconfig["AUTON"]["BALL_R"]["FORWARD_1"]
+            self.ball_rForward_2 = robotconfig["AUTON"]["BALL_R"]["FORWARD_2"]+self.ballTurnTime + self.ball_rForward_1
+            self.ball_rForward_3 = robotconfig["AUTON"]["BALL_R"]["FORWARD_3"]+self.ballTurnTime + self.ball_rForward_2
+            self.ball_rTurn_left = robotconfig["AUTON"]["BALL_R"]["TURN_LEFT"]
+            self.ball_rTurn_right = robotconfig["AUTON"]["BALL_R"]["TURN_RIGHT"]
+            if(self.timer.get()<self.ball_lForward_1):
+                TankDrive.forward(1)
+            elif(self.gyroAngle>self.ball_rTurn_left):
+                TankDrive.counterclockwise(1)
+            elif(self.timer.get()<self.ball_rForward_2):
+                TankDrive.forward(1)
+            elif(self.gyroAngle<self.ball_rTurn_right):
+                TankDrive.clockwise(1)
+            elif(self.timer.get()<self.ball_rForward_3):
+                TankDrive.forward(1)
+
+            
+        if(self.task=="BALL_L"):
+            self.ball_lForward_1 = robotconfig["AUTON"]["BALL_L"]["FORWARD_1"]
+            self.ball_lForward_2 = robotconfig["AUTON"]["BALL_L"]["FORWARD_2"]
+            self.ball_lForward_3 = robotconfig["AUTON"]["BALL_L"]["FORWARD_3"]
+            self.ball_lTurn_right = robotconfig["AUTON"]["BALL_L"]["TURN_RIGHT"]
+            self.ball_lTurn_left = robotconfig["AUTON"]["BALL_L"]["TURN_LEFT"]
+            self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
+        
         return
     
     def teleopManeuver(self):

@@ -1,7 +1,9 @@
 import ctre
 import wpilib
+from navx import AHRS
 
 class TankDrive:
+    
     def __init__(self, config):
         print("initDrivetrain")
         self.motor1 = ctre.WPI_TalonSRX(config["FRONT_RIGHT"]["ID"])
@@ -12,7 +14,8 @@ class TankDrive:
         self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
 
         self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
-
+        self.gyro= AHRS.create_spi(wpilib._wpilib.SPI.port.kMXP, 500000, 50)
+        
         # # Create Drivetrain
         # return wpilib.drive.DifferentialDrive(left_side, right_side)
         return False
