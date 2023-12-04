@@ -90,9 +90,13 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
+        print(self.drivetrain.gyro.getAngle())
+        print(self.drivetrain.gyro.isConnected())
+        self.teleopDrivetrain()
         return
     
     def teleopDrivetrain(self):
+        self.drivetrain.getTankDrive().arcadeDrive(self.driver.xboxController.getRightX()/2, self.driver.xboxController.getLeftY())
         return
     
     def teleopElevatorGrabber(self):
@@ -100,16 +104,17 @@ class MyRobot(wpilib.TimedRobot):
     
     def autonomousInit(self): #this or initAuton?
         self.autonPidController = wpimath.controller.PIDController(0.01, 0.001, 0.0005)
+        self.timer = wpilib.Timer()
         return
     
     def autonomousPeriodic(self):
         #self.gyroAngle = ((self.gyro.getAngle() + 360) % 360)
-        self.gryoAngle = self.gryo.getAngle()
+        #self.gryoAngle = self.gryo.getAngle()
         self.task = robotconfig["AUTON"]["TASK"]
         if(self.task == "CRATE"):
-            self.crateForwardTime = robotconfig["AUTON"]["CRATE"]["FORWARD_1"]
+            self.crateForwardTime = robotconfig["AUTON"]["CRATE_TASK_LIST"]["FORWARD_1"]
             if(self.timer.get()<self.crateForwardTime):
-                TankDrive.forward(1)
+                self.drivetrain.forward(1)
         if(self.task == "BALL_R"):
             self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
             self.ball_rForward_1 = robotconfig["AUTON"]["BALL_R"]["FORWARD_1"]

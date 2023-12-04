@@ -28,16 +28,16 @@ swervometerConfig = {
 
 drivetrainConfig = {
     "FRONT_RIGHT": {
-        "ID": 0,
+        "ID": 5,
     },
     "FRONT_LEFT": {
-        "ID": 1,
+        "ID": 7,
     },
     "REAR_RIGHT": {
-        "ID": 2,
+        "ID": 3,
     },
     "REAR_LEFT": {
-        "ID": 3,
+        "ID": 2,
     },
 }
 
