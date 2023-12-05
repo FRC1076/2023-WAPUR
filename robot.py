@@ -84,6 +84,12 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
+        if self.operator.xboxController.getYButton():
+            self.intake()
+            
+        elif self.operator.xboxController.getAButton():
+            self.eject()
+
         return
     
     def teleopDrivetrain(self):

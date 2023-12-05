@@ -34,8 +34,11 @@ visionConfig = {
 
 }
 
-elevatorConfig = {
-
+launcherConfig = {
+    "TOP_MOTOR_ID": 1,
+    "BOTTOM_MOTOR_ID": 2,
+    "INTAKE_SPEED": 1,
+    "EJECT_SPEED": 1,
 }
 
 grabberConfig = {
