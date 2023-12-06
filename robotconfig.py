@@ -54,7 +54,7 @@ grabberConfig = {
 }
 
 autonConfig = {
-    "TASK":"CRATE",
+    "TASK":"BALL_L",
     # "TASK" is what the robot will do in auton. Options are on the lines below.
     # "CRATE" to push crate
     # "BALL_R" for pushing ball starting in the right corner
@@ -65,23 +65,15 @@ autonConfig = {
 
     #In the TASK_LISTs, the value after a FORWARD command is time time.
     #In the TASK_LISTs, the value after a TURN_LEFT or TURN_RIGHT is the target angle.
-    'CRATE_TASK_LIST':{
-        'FORWARD_1':3,
-    },
-    'BALL_R_TASK_LIST':{
-        'FORWARD_1':1, 
+    'CRATE':[["FORWARD", 1], ["STOP"]],
+    'BALL_R':{
+        'FORWARD':1, 
         'TURN_LEFT':-90,
-        'FORWARD_2':3,
+        'FORWARD':3,
         'TURN_RIGHT':0,
-        'FORWARD_3':3,
+        'FORWARD':3,
     },
-    'BALL_L_TASK_LIST':{
-        'FORWARD_1',
-        'TURN_RIGHT',
-        'FORWARD_2',
-        'TURN_LEFT',
-        'FORWARD_3',
-    },
+    'BALL_L':[["TURN_LEFT", 90]]
 }
 
 MODULE_NAMES = namedtuple('MODULE_NAMES', [

@@ -75,10 +75,8 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def initDrivetrain(self, config):
-        
-        return
-    def initDrivetrain(self, config):
-        return TankDrive(config)
+        gyro = wpilib.ADXRS450_Gyro()
+        return TankDrive(config, gyro)
     
     def initAuton(self, config):
         return
@@ -90,8 +88,6 @@ class MyRobot(wpilib.TimedRobot):
         return True
     
     def teleopPeriodic(self):
-        print(self.drivetrain.gyro.getAngle())
-        print(self.drivetrain.gyro.isConnected())
         self.teleopDrivetrain()
         return
     
@@ -105,12 +101,30 @@ class MyRobot(wpilib.TimedRobot):
     def autonomousInit(self): #this or initAuton?
         self.autonPidController = wpimath.controller.PIDController(0.01, 0.001, 0.0005)
         self.timer = wpilib.Timer()
+        self.timer.start()
+        self.autonCounter = 0
         return
     
     def autonomousPeriodic(self):
         #self.gyroAngle = ((self.gyro.getAngle() + 360) % 360)
         #self.gryoAngle = self.gryo.getAngle()
         self.task = robotconfig["AUTON"]["TASK"]
+        self.taskList = robotconfig["AUTON"][self.task]
+        self.currentTask = self.taskList[self.autonCounter]
+        if(self.currentTask[0] == "FORWARD" and self.timer.get()<self.currentTask[1]):
+            self.drivetrain.forward(1)
+        #elif(self.currentTask[0] == "TURN_LEFT"):
+        #    self.drivetrain.counterclockwise(1)
+        elif(self.currentTask[0] == "STOP"):
+            #self.drivetrain.stop()
+            pass
+        elif(self.currentTask[0] == "TURN_LEFT" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
+            print(self.drivetrain.getGyro().getAngle())
+            self.drivetrain.counterclockwise(1)
+
+        else:
+            self.autonCounter += 1
+        """
         if(self.task == "CRATE"):
             self.crateForwardTime = robotconfig["AUTON"]["CRATE_TASK_LIST"]["FORWARD_1"]
             if(self.timer.get()<self.crateForwardTime):
@@ -124,7 +138,7 @@ class MyRobot(wpilib.TimedRobot):
             self.ball_rTurn_right = robotconfig["AUTON"]["BALL_R"]["TURN_RIGHT"]
             if(self.timer.get()<self.ball_lForward_1):
                 TankDrive.forward(1)
-            elif(self.gyroAngle>self.ball_rTurn_left):
+            elif(self.gyroAngle>self.ball_rTurn_left
                 TankDrive.counterclockwise(1)
             elif(self.timer.get()<self.ball_rForward_2):
                 TankDrive.forward(1)
@@ -143,6 +157,7 @@ class MyRobot(wpilib.TimedRobot):
             self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
         
         return
+        """
     
     def teleopManeuver(self):
         return

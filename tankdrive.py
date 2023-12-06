@@ -4,7 +4,7 @@ from navx import AHRS
 
 class TankDrive:
     
-    def __init__(self, config):
+    def __init__(self, config, gyro):
         print("initDrivetrain")
         self.motor1 = ctre.WPI_TalonSRX(config["FRONT_RIGHT"]["ID"])
         self.motor2 = ctre.WPI_TalonSRX(config["FRONT_LEFT"]["ID"])
@@ -14,8 +14,8 @@ class TankDrive:
         self.right_side = wpilib.MotorControllerGroup(self.motor1, self.motor3)
 
         self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
-        self.gyro= AHRS.create_spi(wpilib._wpilib.SPI.Port.kMXP, 500000, 50)
-        self.gyro.calibrate()
+        #self.gyro= AHRS.create_spi(wpilib._wpilib.SPI.Port.)
+        self.gyro = gyro
         
         # # Create Drivetrain
         # return wpilib.drive.DifferentialDrive(left_side, right_side)
@@ -24,13 +24,19 @@ class TankDrive:
         self.drive.arcadeDrive(0,-speed)
     
     def backward(self, speed):
-        self.drive.tankDrive(0,speed)
+        self.drive.arcadeDrive(0,speed)
 
     def counterclockwise(self, speed):
-        self.drive.tankDrive(-speed, 0)
+        self.drive.arcadeDrive(-speed, 0)
 
     def clockwise(self, speed):
-        self.drive.tankDrive(speed,0)
+        self.drive.arcadeDrive(speed,0)
+    
+    def stop(self):
+        self.drive.arcadeDrive(0, 0)
     
     def getTankDrive(self):
         return self.drive
+    
+    def getGyro(self):
+        return self.gyro
