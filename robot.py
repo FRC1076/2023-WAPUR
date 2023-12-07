@@ -59,7 +59,7 @@ class MyRobot(wpilib.TimedRobot):
             dz = ctrlConfig['DEADZONE']
             lta = ctrlConfig['LEFT_TRIGGER_AXIS']
             rta = ctrlConfig['RIGHT_TRIGGER_AXIS']
-            ctrls.append(Controller(ctrl, dz, lta, rta))
+            ctrls.append(Controller([ctrl, dz, lta, rta]))
         return ctrls
     
     def initVision(self, config):
