@@ -54,7 +54,7 @@ grabberConfig = {
 }
 
 autonConfig = {
-    "TASK":"BALL_L",
+    "TASK":"BALL_START_L",
     # "TASK" is what the robot will do in auton. Options are on the lines below.
     # "CRATE" to push crate
     # "BALL_R" for pushing ball starting in the right corner
@@ -63,17 +63,31 @@ autonConfig = {
     "GYRO_STARTING_VALUE":0, #Starting value of the gyroscope, in degrees
     "BALL_TURN_TIME":1.5, #Expected time for the turns while going for the ball
 
-    #In the TASK_LISTs, the value after a FORWARD command is time time.
-    #In the TASK_LISTs, the value after a TURN_LEFT or TURN_RIGHT is the target angle.
-    'CRATE':[["FORWARD", 1], ["STOP"]],
-    'BALL_R':{
-        'FORWARD':1, 
-        'TURN_LEFT':-90,
-        'FORWARD':3,
-        'TURN_RIGHT':0,
-        'FORWARD':3,
-    },
-    'BALL_L':[["TURN_LEFT", 90]]
+    #In the task lists, the value after a FORWARD command is time time.
+    #In the tasklists, the value after a CLOCKWISE or COUNTERCLOCKWISE is the target angle.
+    #STOPs don't actually seem to be neccesary, as long as the robot is set up to brake when the drive command ends.
+    'CRATE':[ #Go for the crates by pushing them accross the line
+        ["FORWARD", 2],
+        ["STOP"],
+    ],
+    'BALL_START_R':[ #Going for the ball, starting in the right corner
+        ["COUNTERCLOCKWISE", 90],
+        ["STOP"],
+        ["FORWARD", 1],
+        ["STOP"],
+        ["CLOCKWISE", 0],
+        ["STOP"],
+        ["FORWARD", 1.5],
+    ],
+    'BALL_START_L':[ #Going for the ball, starting in the left corner
+        ["CLOCKWISE", 270],
+        ["STOP"],
+        ["FORWARD", 1],
+        ["STOP"],
+        ["COUNTERCLOCKWISE", 0],
+        ["STOP"],
+        ["FORWARD", 1.5],
+    ]
 }
 
 MODULE_NAMES = namedtuple('MODULE_NAMES', [

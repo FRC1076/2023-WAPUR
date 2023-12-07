@@ -106,22 +106,20 @@ class MyRobot(wpilib.TimedRobot):
         return
     
     def autonomousPeriodic(self):
-        #self.gyroAngle = ((self.gyro.getAngle() + 360) % 360)
-        #self.gryoAngle = self.gryo.getAngle()
         self.task = robotconfig["AUTON"]["TASK"]
         self.taskList = robotconfig["AUTON"][self.task]
         self.currentTask = self.taskList[self.autonCounter]
         if(self.currentTask[0] == "FORWARD" and self.timer.get()<self.currentTask[1]):
             self.drivetrain.forward(1)
-        #elif(self.currentTask[0] == "TURN_LEFT"):
-        #    self.drivetrain.counterclockwise(1)
         elif(self.currentTask[0] == "STOP"):
-            #self.drivetrain.stop()
-            pass
-        elif(self.currentTask[0] == "TURN_LEFT" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
+            self.drivetrain.stop()
+            #pass
+        elif(self.currentTask[0] == "COUNTERCLOCKWISE" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
             print(self.drivetrain.getGyro().getAngle())
             self.drivetrain.counterclockwise(1)
-
+        elif(self.currentTask[0] == "CLOCKWISE" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
+            print(self.drivetrain.getGyro().getAngle())
+            self.drivetrain.clockwise(1)
         else:
             self.autonCounter += 1
         """
