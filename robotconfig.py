@@ -69,4 +69,5 @@ dashboardConfig = {
 
 robotconfig = {
     "CONTROLLERS": controllerConfig,
+    "LAUNCHER": launcherConfig,  
 }

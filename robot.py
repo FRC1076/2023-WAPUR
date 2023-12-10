@@ -11,10 +11,11 @@ from wpilib import interfaces
 import rev
 import ctre
 from navx import AHRS
-from networktables import NetworkTables
+#from NetworkTables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
+from launcher import Launcher
 """
 from swervedrive import SwerveDrive
 from swervemodule import SwerveModule
@@ -44,6 +45,7 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
+        self.launcher = Launcher(robotconfig["LAUNCHER"])
         return
     
     def initLogger(self, dir):
@@ -62,15 +64,7 @@ class MyRobot(wpilib.TimedRobot):
             ctrls.append(Controller(ctrl, dz, lta, rta))
         return ctrls
     
-    def initVision(self, config):
-        return
-    
-    def initElevator(self, config):
-        return
-    
-    def initGrabber(self, config):
-        return
-    
+
     def initDrivetrain(self, config):
         return
     
@@ -83,12 +77,23 @@ class MyRobot(wpilib.TimedRobot):
     def robotPeriodic(self):
         return True
     
+    # left bumper = intake
+    # right bumper = eject
+    # y = AimUp
+    # a = AimDown
     def teleopPeriodic(self):
-        if self.operator.xboxController.getYButton():
-            self.intake()
-            
-        elif self.operator.xboxController.getAButton():
-            self.eject()
+
+        if self.operator.xboxController.getYButtonPressed():
+            self.launcher.aimUp()
+
+        elif self.operator.xboxController.getLeftBumper():
+            self.launcher.intake()
+
+        elif self.operator.xboxController.getAButtonPressed():
+            self.launcher.aimDown()
+
+        elif self.operator.xboxController.getRightBumper():
+            self.launcher.eject()
 
         return
     
