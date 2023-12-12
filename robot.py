@@ -102,60 +102,33 @@ class MyRobot(wpilib.TimedRobot):
         self.autonPidController = wpimath.controller.PIDController(0.01, 0.001, 0.0005)
         self.timer = wpilib.Timer()
         self.timer.start()
+        self.gyroAtTaskStart = self.drivetrain.getGyro().getAngle()
         self.autonCounter = 0
         return
     
     def autonomousPeriodic(self):
-        self.task = robotconfig["AUTON"]["TASK"]
-        self.taskList = robotconfig["AUTON"][self.task]
-        self.currentTask = self.taskList[self.autonCounter]
+        self.task = robotconfig["AUTON"]["TASK"] #Get the current task set for the robot
+        self.taskList = robotconfig["AUTON"][self.task] #Select the tasklist
+        self.currentTask = self.taskList[self.autonCounter] #Select the current task
+        self.gyroMode = robotconfig["AUTON"]["GYRO_MODE"] #Get the mode of the gyro, whether or not to reset after every task
         if(self.currentTask[0] == "FORWARD" and self.timer.get()<self.currentTask[1]):
+            #Go forward for _ seconds
             self.drivetrain.forward(1)
         elif(self.currentTask[0] == "STOP"):
             self.drivetrain.stop()
-            #pass
+            #Stop the robot
         elif(self.currentTask[0] == "COUNTERCLOCKWISE" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
             print(self.drivetrain.getGyro().getAngle())
             self.drivetrain.counterclockwise(1)
+            #Go counterclockwise to (gyro is ABSOLUTE) or by (gyro is RELATIVE) _ degrees.
         elif(self.currentTask[0] == "CLOCKWISE" and abs(self.drivetrain.getGyro().getAngle()) < self.currentTask[1]):
             print(self.drivetrain.getGyro().getAngle())
             self.drivetrain.clockwise(1)
+            #Go counterclockwise to (gyro is ABSOLUTE) or by (gyro is RELATIVE) _ degrees.
         else:
-            self.autonCounter += 1
-        """
-        if(self.task == "CRATE"):
-            self.crateForwardTime = robotconfig["AUTON"]["CRATE_TASK_LIST"]["FORWARD_1"]
-            if(self.timer.get()<self.crateForwardTime):
-                self.drivetrain.forward(1)
-        if(self.task == "BALL_R"):
-            self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
-            self.ball_rForward_1 = robotconfig["AUTON"]["BALL_R"]["FORWARD_1"]
-            self.ball_rForward_2 = robotconfig["AUTON"]["BALL_R"]["FORWARD_2"]+self.ballTurnTime + self.ball_rForward_1
-            self.ball_rForward_3 = robotconfig["AUTON"]["BALL_R"]["FORWARD_3"]+self.ballTurnTime + self.ball_rForward_2
-            self.ball_rTurn_left = robotconfig["AUTON"]["BALL_R"]["TURN_LEFT"]
-            self.ball_rTurn_right = robotconfig["AUTON"]["BALL_R"]["TURN_RIGHT"]
-            if(self.timer.get()<self.ball_lForward_1):
-                TankDrive.forward(1)
-            elif(self.gyroAngle>self.ball_rTurn_left
-                TankDrive.counterclockwise(1)
-            elif(self.timer.get()<self.ball_rForward_2):
-                TankDrive.forward(1)
-            elif(self.gyroAngle<self.ball_rTurn_right):
-                TankDrive.clockwise(1)
-            elif(self.timer.get()<self.ball_rForward_3):
-                TankDrive.forward(1)
-
-            
-        if(self.task=="BALL_L"):
-            self.ball_lForward_1 = robotconfig["AUTON"]["BALL_L"]["FORWARD_1"]
-            self.ball_lForward_2 = robotconfig["AUTON"]["BALL_L"]["FORWARD_2"]
-            self.ball_lForward_3 = robotconfig["AUTON"]["BALL_L"]["FORWARD_3"]
-            self.ball_lTurn_right = robotconfig["AUTON"]["BALL_L"]["TURN_RIGHT"]
-            self.ball_lTurn_left = robotconfig["AUTON"]["BALL_L"]["TURN_LEFT"]
-            self.ballTurnTime = robotconfig["AUTON"]["BALL_TURN_TIME"]
-        
-        return
-        """
+            self.autonCounter += 1 #Go to the next task
+            self.timer.restart() #Reset the timer
+            self.gyroAtTaskStart = self.drivetrain.getGyro().getAngle()
     
     def teleopManeuver(self):
         return
