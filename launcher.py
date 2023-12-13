@@ -36,10 +36,10 @@ class Launcher:
 
         # uses the pistons
     def eject(self):
+        self.launchTimer.reset()
         self.launchTimer.start()
         currentTimer = self.launchTimer.get()
 
-        #if inEjecting Phase:
 
         # gets the motors running before ejecting
         self.topMotor.set(self.ejectSpeed)
@@ -53,6 +53,8 @@ class Launcher:
         elif currentTimer > 3.0:
             self.launchTimer.stop()
             self.launchTimer.reset()
+
+            #ends the ejecting motion
             #self.inEjectingPhase = False
         
             
