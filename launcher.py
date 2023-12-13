@@ -9,7 +9,8 @@ import ctre
 class Launcher:
     def __init__(self, config):
         self.launchTimer = wpilib.Timer()
-        
+        #self.inEjectingPhase = False
+
         self.topMotor = ctre.TalonSRX(config["TOP_MOTOR_ID"]) # launcher top-bottom
         self.bottomMotor = ctre.TalonSRX(config["BOTTOM_MOTOR_ID"]) # launcher top-bottom
         # CAN ID
@@ -37,6 +38,8 @@ class Launcher:
         self.launchTimer.start()
         currentTimer = self.launchTimer.get()
 
+        #if inEjecting Phase:
+
         # gets the motors running before ejecting
         self.topMotor.set(ejectSpeed)
         self.bottomMotor.set(ejectSpeed)
@@ -55,6 +58,7 @@ class Launcher:
             print("stuff completed")
             self.launchTimer.stop()
             self.launchTimer.reset()
+            #self.inEjectingPhase = False
         
             
         

@@ -93,6 +93,7 @@ class MyRobot(wpilib.TimedRobot):
             self.launcher.aimDown()
 
         elif self.operator.xboxController.getRightBumper():
+            #launcher.inEjectingPhase = True (to test this, change to getRightBumperPressed)
             self.launcher.eject()
 
         return
