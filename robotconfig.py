@@ -64,15 +64,15 @@ autonConfig = {
     "BALL_TURN_TIME":1.5, #Expected time for the turns while going for the ball
 
     #In the task lists, the value after a FORWARD command is time.
-    #In the tasklists, the value after a CLOCKWISE or COUNTERCLOCKWISE is the target angle.
-    #In the tasklists, the value after a TURN_RELATIVE_ANGLE is the change in
-    #STOPs don't actually seem to be neccesary, as long as the robot is set up to brake when the drive command ends.
+    #In the tasklists, the value after a CLOCKWISE or COUNTERCLOCKWISE is the absolute target angle.
+    #In the tasklists, the value after a CLOCKWISE_RELATIVE_ANGLE or COUNTERCLOCKWISE_RELATIVE_ANGLE is the change in angle
+    #STOPs stop the robot
     'CRATE':[ #Go for the crates by pushing them accross the line
         ["FORWARD", 2],
         ["STOP"],
     ],
     'BALL_START_R':[ #Going for the ball, starting in the right corner
-        ["COUNTERCLOCKWISE", 90],
+        ["COUNTERCLOCKWISE_RELATIVE_ANGLE", 90],
         ["STOP"],
         ["FORWARD", 1],
         ["STOP"],
@@ -81,7 +81,7 @@ autonConfig = {
         ["FORWARD", 1.5],
     ],
     'BALL_START_L':[ #Going for the ball, starting in the left corner
-        ["CLOCKWISE", 270],
+        ["CLOCKWISE_RELATIVE_ANGLE", 90],
         ["STOP"],
         ["FORWARD", 1],
         ["STOP"],

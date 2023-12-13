@@ -102,7 +102,7 @@ class MyRobot(wpilib.TimedRobot):
         self.autonPidController = wpimath.controller.PIDController(0.01, 0.001, 0.0005)
         self.timer = wpilib.Timer()
         self.timer.start()
-        self.gyroAtTaskStart = self.drivetrain.getGyro().getAngle()
+        self.angleAtTaskStart = self.drivetrain.getGyro().getAngle()
         self.autonCounter = 0
         return
     
@@ -125,10 +125,16 @@ class MyRobot(wpilib.TimedRobot):
             print(self.drivetrain.getGyro().getAngle())
             self.drivetrain.clockwise(1)
             #Go counterclockwise to (gyro is ABSOLUTE) or by (gyro is RELATIVE) _ degrees.
+        elif(self.currentTask[0] == "COUNTERCLOCKWISE_RELATIVE_ANGLE" and (self.drivetrain.getGyro().getAngle()) < (self.angleAtTaskStart + self.currentTask[1])):
+            self.drivetrain.counterclockwise(1)
+            #CHECK DIRECTION
+        elif(self.currentTask[0] == "CLOCKWISE_RELATIVE_ANGLE" and (self.drivetrain.getGyro().getAngle()) > (self.angleAtTaskStart + self.currentTask[1])):
+            self.drivetrain.clockwise(1)
+            #CHECK DIRECTION
         else:
             self.autonCounter += 1 #Go to the next task
             self.timer.restart() #Reset the timer
-            self.gyroAtTaskStart = self.drivetrain.getGyro().getAngle()
+            self.angleAtTaskStart = self.drivetrain.getGyro().getAngle()
     
     def teleopManeuver(self):
         return
