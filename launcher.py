@@ -9,10 +9,12 @@ import ctre
 class Launcher:
     def __init__(self, config):
         self.launchTimer = wpilib.Timer()
+
         #self.inEjectingPhase = False
 
         self.topMotor = ctre.TalonSRX(config["TOP_MOTOR_ID"]) # launcher top-bottom
         self.bottomMotor = ctre.TalonSRX(config["BOTTOM_MOTOR_ID"]) # launcher top-bottom
+
         # CAN ID
         # module type
         # forward port
@@ -23,6 +25,7 @@ class Launcher:
         self.aimPiston = DoubleSolenoid(config["AIM_CAN_ID"],config["AIM_MODULE_TYPE"],
                                         config["AIM_FORWARD_CHANNEL"], config["AIM_REVERSE_CHANNEL"]) 
                                         # piston responsible for aiming the launcher
+        self.ejectSpeed = config["EJECT_SPEED"]
 
         # uses the motors                  
     def intake(self):
@@ -33,29 +36,21 @@ class Launcher:
 
         # uses the pistons
     def eject(self):
-        ejectSpeed = self.config["EJECT_SPEED"]
-        
         self.launchTimer.start()
         currentTimer = self.launchTimer.get()
 
         #if inEjecting Phase:
 
         # gets the motors running before ejecting
-        self.topMotor.set(ejectSpeed)
-        self.bottomMotor.set(ejectSpeed)
-
-        if currentTimer < 1.0:
-            print("motors starting up")
-
+        self.topMotor.set(self.ejectSpeed)
+        self.bottomMotor.set(self.ejectSpeed)
+        
         # extending piston, then retracting it and getting rid of the timer
         if currentTimer > 1.0 and currentTimer < 2.0:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kForward)
-            print("piston is extending")
         elif currentTimer > 2.0 and currentTimer < 3.0:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
-            print("piston is retracting")
-        else:
-            print("stuff completed")
+        elif currentTimer > 3.0:
             self.launchTimer.stop()
             self.launchTimer.reset()
             #self.inEjectingPhase = False
