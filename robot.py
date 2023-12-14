@@ -94,18 +94,11 @@ class MyRobot(wpilib.TimedRobot):
 
         #called once when button is released, which gets the launcher into ejecting mode
         elif self.operator.xboxController.getRightBumperReleased():
-            self.launcher.inEjectingPhase = True 
-            #(to test this, change to getRightBumperReleased)
-
-
-
-            #this will be deleted
-            #self.launcher.eject()
+            self.launcher.startEject()
 
         #if in ejecting mode, run the eject function
-        if self.launcher.inEJectingPhase:
-                self.launcher.eject()
-        
+        if self.launcher.inEjectingPhase:
+            self.launcher.eject()
 
         return
     
