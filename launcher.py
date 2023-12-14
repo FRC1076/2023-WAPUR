@@ -10,7 +10,7 @@ class Launcher:
     def __init__(self, config):
         self.launchTimer = wpilib.Timer()
 
-        #self.inEjectingPhase = False
+        self.inEjectingPhase = False
 
         self.topMotor = ctre.TalonSRX(config["TOP_MOTOR_ID"]) # launcher top-bottom
         self.bottomMotor = ctre.TalonSRX(config["BOTTOM_MOTOR_ID"]) # launcher top-bottom
@@ -45,17 +45,23 @@ class Launcher:
         self.topMotor.set(self.ejectSpeed)
         self.bottomMotor.set(self.ejectSpeed)
         
+        if currentTimer < 1.0
+            print("motors runnings")
+
         # extending piston, then retracting it and getting rid of the timer
         if currentTimer > 1.0 and currentTimer < 2.0:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kForward)
+            print("piston forward")
         elif currentTimer > 2.0 and currentTimer < 3.0:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
+            print("piston reverse")
         elif currentTimer > 3.0:
+            print("stuff done")
             self.launchTimer.stop()
             self.launchTimer.reset()
 
             #ends the ejecting motion
-            #self.inEjectingPhase = False
+            self.inEjectingPhase = False
         
             
         
