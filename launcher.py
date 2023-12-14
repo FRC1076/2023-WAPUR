@@ -61,16 +61,9 @@ class Launcher:
 
             #ends the ejecting motion
             self.inEjectingPhase = False
-        
-            
-        
-        # extend ejectPiston
 
     def aimDown(self):
-        # retract aimPiston
-
-        self.aimPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
+        self.aimPiston.set(wpilib.DoubleSolenoid.Value.kForward)
 
     def aimUp(self):
-        # extend aimPiston
-        self.aimPiston.set(wpilib.DoubleSolenoid.Value.kForward)
+        self.aimPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
