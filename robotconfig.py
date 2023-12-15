@@ -41,13 +41,10 @@ launcherConfig = {
     "INTAKE_SPEED": 0.8,
     "EJECT_SPEED": -0.6,
 
-    "AIM_CAN_ID": 0,
-    "AIM_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
+    "PNEU_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
     "AIM_FORWARD_CHANNEL": 0,
     "AIM_REVERSE_CHANNEL": 2,
 
-    "EJECT_CAN_ID": 0,
-    "EJECT_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
     "EJECT_FORWARD_CHANNEL": 1,
     "EJECT_REVERSE_CHANNEL": 3,
 }
