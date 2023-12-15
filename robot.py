@@ -86,14 +86,16 @@ class MyRobot(wpilib.TimedRobot):
         if self.operator.xboxController.getYButtonPressed():
             self.launcher.aimUp()
 
-        elif self.operator.xboxController.getLeftBumper():
+        if self.operator.xboxController.getLeftBumper():
             self.launcher.intake()
+        else:
+            self.launcher.stop()
 
-        elif self.operator.xboxController.getAButtonPressed():
+        if self.operator.xboxController.getAButtonPressed():
             self.launcher.aimDown()
 
         #called once when button is released, which gets the launcher into ejecting mode
-        elif self.operator.xboxController.getRightBumperReleased():
+        if self.operator.xboxController.getRightBumperReleased():
             self.launcher.startEject()
 
         #if in ejecting mode, run the eject function

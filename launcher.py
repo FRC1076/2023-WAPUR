@@ -19,13 +19,19 @@ class Launcher:
         # module type
         # forward port
         # backward port, piston configuration name
-        self.ejectPiston =  DoubleSolenoid(config["EJECT_CAN_ID"],config["EJECT_MODULE_TYPE"],
-                                        config["EJECT_FORWARD_CHANNEL"], config["EJECT_REVERSE_CHANNEL"]) 
+        #self.ejectPiston =  DoubleSolenoid(config["EJECT_CAN_ID"],config["EJECT_MODULE_TYPE"],
+        #                                config["EJECT_FORWARD_CHANNEL"], config["EJECT_REVERSE_CHANNEL"]) 
+        #                                # piston responsible for pushing ball out
+        #self.aimPiston = DoubleSolenoid(config["AIM_CAN_ID"],config["AIM_MODULE_TYPE"],
+        #                                config["AIM_FORWARD_CHANNEL"], config["AIM_REVERSE_CHANNEL"]) 
+        self.ejectPiston =  DoubleSolenoid(moduleType=config["EJECT_MODULE_TYPE"],
+                                        forwardChannel=config["EJECT_FORWARD_CHANNEL"], reverseChannel=config["EJECT_REVERSE_CHANNEL"]) 
                                         # piston responsible for pushing ball out
-        self.aimPiston = DoubleSolenoid(config["AIM_CAN_ID"],config["AIM_MODULE_TYPE"],
-                                        config["AIM_FORWARD_CHANNEL"], config["AIM_REVERSE_CHANNEL"]) 
+        self.aimPiston = DoubleSolenoid(moduleType=config["AIM_MODULE_TYPE"],
+                                        forwardChannel=config["AIM_FORWARD_CHANNEL"], reverseChannel=config["AIM_REVERSE_CHANNEL"]) 
                                         # piston responsible for aiming the launcher
         self.ejectSpeed = config["EJECT_SPEED"]
+        self.config = config
 
         # uses the motors                  
     def intake(self):
@@ -67,3 +73,7 @@ class Launcher:
 
     def aimUp(self):
         self.aimPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
+    
+    def stop(self):
+        self.topMotor.set(0)
+        self.bottomMotor.set(0)

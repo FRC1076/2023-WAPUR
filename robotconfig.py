@@ -36,10 +36,10 @@ visionConfig = {
 }
 
 launcherConfig = {
-    "TOP_MOTOR_ID": 1,
-    "BOTTOM_MOTOR_ID": 2,
-    "INTAKE_SPEED": 0.1,
-    "EJECT_SPEED": -0.1,
+    "TOP_MOTOR_ID": 4,
+    "BOTTOM_MOTOR_ID": 1,
+    "INTAKE_SPEED": 0.8,
+    "EJECT_SPEED": -0.6,
 
     "AIM_CAN_ID": 0,
     "AIM_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
