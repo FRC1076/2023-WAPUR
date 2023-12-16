@@ -43,12 +43,6 @@ class MyRobot(wpilib.TimedRobot):
             ctrls.append(Controller(ctrl, dz, lta, rta))
         return ctrls
     
-
-    def initDrivetrain(self, config):
-        
-        return
-        return TankDrive(config)
-    
     def initAuton(self, config):
         return
     
@@ -82,10 +76,13 @@ class MyRobot(wpilib.TimedRobot):
         #if in ejecting mode, run the eject function
         if self.launcher.inEjectingPhase:
             self.launcher.eject()
+        
+        self.teleopDrivetrain()
 
         return
     
     def teleopDrivetrain(self):
+        self.drivetrain.getTankDrive().arcadeDrive(self.driver.xboxController.getRightX()/2, self.driver.xboxController.getLeftY())
         return
     
     def teleopElevatorGrabber(self):

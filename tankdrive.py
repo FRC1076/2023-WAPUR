@@ -8,8 +8,8 @@ class TankDrive:
         self.motor2 = ctre.WPI_TalonSRX(config["FRONT_LEFT_ID"])
         self.motor3 = ctre.WPI_TalonSRX(config["REAR_RIGHT_ID"])
         self.motor4 = ctre.WPI_TalonSRX(config["REAR_LEFT_ID"])
-        self.left_side = wpilib.MotorControllerGroup(self.motor1, self.motor2)
-        self.right_side = wpilib.MotorControllerGroup(self.motor3, self.motor4)
+        self.left_side = wpilib.MotorControllerGroup(self.motor2, self.motor4)
+        self.right_side = wpilib.MotorControllerGroup(self.motor1, self.motor3)
 
         self.drive = wpilib.drive.DifferentialDrive(self.left_side, self.right_side)
         return
@@ -25,3 +25,6 @@ class TankDrive:
 
     def clockwise(self, speed):
         self.drive.tankDrive(speed,speed)
+    
+    def getTankDrive(self):
+        return self.drive

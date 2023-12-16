@@ -46,13 +46,13 @@ class Launcher:
         #if eject doesn't finish before it is called again, will the pistons be in an awkward location?
 
         # extending piston, then retracting it and getting rid of the timer
-        if currentTimer > 1.0 and currentTimer < 2.0:
+        if currentTimer > 1.5 and currentTimer < 2.5:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kForward)
             print("piston forward")
-        elif currentTimer > 2.0 and currentTimer < 3.0:
+        elif currentTimer > 2.5 and currentTimer < 3.5:
             self.ejectPiston.set(wpilib.DoubleSolenoid.Value.kReverse)
             print("piston reverse")
-        elif currentTimer > 3.0:
+        elif currentTimer > 3.5:
             print("stuff done")
             self.launchTimer.stop()
 

@@ -28,10 +28,10 @@ swervometerConfig = {
 }
 
 drivetrainConfig = {
-    "FRONT_RIGHT_ID": 0,
-    "FRONT_LEFT_ID": 1,
-    "REAR_RIGHT_ID": 2,
-    "REAR_LEFT_ID": 3,
+    "FRONT_RIGHT_ID": 5,
+    "FRONT_LEFT_ID": 7,
+    "REAR_RIGHT_ID": 3,
+    "REAR_LEFT_ID": 2,
 }
 
 visionConfig = {
@@ -42,7 +42,7 @@ launcherConfig = {
     "TOP_MOTOR_ID": 4,
     "BOTTOM_MOTOR_ID": 1,
     "INTAKE_SPEED": 0.8,
-    "EJECT_SPEED": -0.6,
+    "EJECT_SPEED": -1,
 
     "PNEU_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
     "AIM_FORWARD_CHANNEL": 0,
