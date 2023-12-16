@@ -1,4 +1,5 @@
 from collections import namedtuple
+import wpilib
 
 DEADZONE = 0.1
 
@@ -27,30 +28,28 @@ swervometerConfig = {
 }
 
 drivetrainConfig = {
-    "FRONT_RIGHT": {
-        "ID": 5,
-    },
-    "FRONT_LEFT": {
-        "ID": 7,
-    },
-    "REAR_RIGHT": {
-        "ID": 3,
-    },
-    "REAR_LEFT": {
-        "ID": 2,
-    },
+    "FRONT_RIGHT_ID": 5,
+    "FRONT_LEFT_ID": 7,
+    "REAR_RIGHT_ID": 3,
+    "REAR_LEFT_ID": 2,
 }
 
 visionConfig = {
 
 }
 
-elevatorConfig = {
+launcherConfig = {
+    "TOP_MOTOR_ID": 4,
+    "BOTTOM_MOTOR_ID": 1,
+    "INTAKE_SPEED": 0.8,
+    "EJECT_SPEED": -1,
 
-}
+    "PNEU_MODULE_TYPE": wpilib.PneumaticsModuleType.CTREPCM,
+    "AIM_FORWARD_CHANNEL": 0,
+    "AIM_REVERSE_CHANNEL": 2,
 
-grabberConfig = {
-
+    "EJECT_FORWARD_CHANNEL": 1,
+    "EJECT_REVERSE_CHANNEL": 3,
 }
 
 autonConfig = {
@@ -103,7 +102,8 @@ dashboardConfig = {
 }
 
 robotconfig = {
+    "AUTON": autonConfig,
     "CONTROLLERS": controllerConfig,
     "DRIVETRAIN": drivetrainConfig,
-    "AUTON": autonConfig,
+    "LAUNCHER": launcherConfig,  
 }

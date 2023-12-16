@@ -12,33 +12,11 @@ from wpilib import interfaces
 import rev
 import ctre
 from navx import AHRS
-from networktables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
+from launcher import Launcher
 from tankdrive import TankDrive
-"""
-from swervedrive import SwerveDrive
-from swervemodule import SwerveModule
-from swervemodule import ModuleConfig
-
-from swervedrive import BalanceConfig
-from swervedrive import TargetConfig
-from swervedrive import BearingConfig
-from swervedrive import VisionDriveConfig
-
-from swervometer import FieldConfig
-from swervometer import RobotPropertyConfig
-from swervometer import Swervometer
-
-from elevator import Elevator
-from grabber import Grabber
-from vision import Vision
-from logger import Logger
-from dashboard import Dashboard
-
-from tester import Tester
-"""
 
 class MyRobot(wpilib.TimedRobot):
 
@@ -46,7 +24,9 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
-        self.drivetrain = self.initDrivetrain(robotconfig["DRIVETRAIN"])
+        self.launcher = Launcher(robotconfig["LAUNCHER"])
+        gyro = wpilib.ADXRS450_Gyro()
+        self.drivetrain = TankDrive(robotconfig["DRIVETRAIN"], gyro)
         return
     
     def initLogger(self, dir):
@@ -74,9 +54,7 @@ class MyRobot(wpilib.TimedRobot):
     def initGrabber(self, config):
         return
     
-    def initDrivetrain(self, config):
-        gyro = wpilib.ADXRS450_Gyro()
-        return TankDrive(config, gyro)
+        
     
     def initAuton(self, config):
         return
@@ -87,8 +65,33 @@ class MyRobot(wpilib.TimedRobot):
     def robotPeriodic(self):
         return True
     
+    # left bumper = intake
+    # right bumper = eject
+    # y = AimUp
+    # a = AimDown
     def teleopPeriodic(self):
+
+        if self.operator.xboxController.getYButtonPressed():
+            self.launcher.aimUp()
+
+        if self.operator.xboxController.getLeftBumper():
+            self.launcher.intake()
+        else:
+            self.launcher.stop()
+
+        if self.operator.xboxController.getAButtonPressed():
+            self.launcher.aimDown()
+
+        #called once when button is released, which gets the launcher into ejecting mode
+        if self.operator.xboxController.getRightBumperReleased():
+            self.launcher.startEject()
+
+        #if in ejecting mode, run the eject function
+        if self.launcher.inEjectingPhase:
+            self.launcher.eject()
+        
         self.teleopDrivetrain()
+
         return
     
     def teleopDrivetrain(self):
