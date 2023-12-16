@@ -11,33 +11,11 @@ from wpilib import interfaces
 import rev
 import ctre
 from navx import AHRS
-from networktables import NetworkTables
+#from networktables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
 from tankdrive import TankDrive
-"""
-from swervedrive import SwerveDrive
-from swervemodule import SwerveModule
-from swervemodule import ModuleConfig
-
-from swervedrive import BalanceConfig
-from swervedrive import TargetConfig
-from swervedrive import BearingConfig
-from swervedrive import VisionDriveConfig
-
-from swervometer import FieldConfig
-from swervometer import RobotPropertyConfig
-from swervometer import Swervometer
-
-from elevator import Elevator
-from grabber import Grabber
-from vision import Vision
-from logger import Logger
-from dashboard import Dashboard
-
-from tester import Tester
-"""
 
 class MyRobot(wpilib.TimedRobot):
 
@@ -45,7 +23,7 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
-        self.drivetrain = self.initDrivetrain(robotconfig["DRIVETRAIN"])
+        self.drivetrain = TankDrive(robotconfig["DRIVETRAIN"])
         return
     
     def initLogger(self, dir):
@@ -76,7 +54,6 @@ class MyRobot(wpilib.TimedRobot):
     def initDrivetrain(self, config):
         
         return
-    def initDrivetrain(self, config):
         return TankDrive(config)
     
     def initAuton(self, config):

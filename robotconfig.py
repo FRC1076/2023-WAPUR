@@ -9,13 +9,13 @@ SWERVE = 3
 
 controllerConfig = {
     "DRIVER": {
-        "ID": 1,
+        "ID": 0,
         "DEADZONE": DEADZONE,
         "LEFT_TRIGGER_AXIS": 2,
         "RIGHT_TRIGGER_AXIS": 3,
     },
     "OPERATOR": {
-        "ID": 2,
+        "ID": 1,
         "DEADZONE": DEADZONE,
         "LEFT_TRIGGER_AXIS": 2,
         "RIGHT_TRIGGER_AXIS": 3,
@@ -27,18 +27,10 @@ swervometerConfig = {
 }
 
 drivetrainConfig = {
-    "FRONT_RIGHT": {
-        "ID": 0,
-    },
-    "FRONT_LEFT": {
-        "ID": 1,
-    },
-    "REAR_RIGHT": {
-        "ID": 2,
-    },
-    "REAR_LEFT": {
-        "ID": 3,
-    },
+    "FRONT_RIGHT_ID": 0,
+    "FRONT_LEFT_ID": 1,
+    "REAR_RIGHT_ID": 2,
+    "REAR_LEFT_ID": 3,
 }
 
 visionConfig = {
