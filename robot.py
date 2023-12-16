@@ -11,10 +11,10 @@ from wpilib import interfaces
 import rev
 import ctre
 from navx import AHRS
-#from networktables import NetworkTables
 
 from robotconfig import robotconfig, MODULE_NAMES
 from controller import Controller
+from launcher import Launcher
 from tankdrive import TankDrive
 
 class MyRobot(wpilib.TimedRobot):
@@ -23,6 +23,7 @@ class MyRobot(wpilib.TimedRobot):
         controllers = self.initControllers(robotconfig["CONTROLLERS"])
         self.driver = controllers[0]
         self.operator = controllers[1]
+        self.launcher = Launcher(robotconfig["LAUNCHER"])
         self.drivetrain = TankDrive(robotconfig["DRIVETRAIN"])
         return
     
@@ -42,15 +43,7 @@ class MyRobot(wpilib.TimedRobot):
             ctrls.append(Controller(ctrl, dz, lta, rta))
         return ctrls
     
-    def initVision(self, config):
-        return
-    
-    def initElevator(self, config):
-        return
-    
-    def initGrabber(self, config):
-        return
-    
+
     def initDrivetrain(self, config):
         
         return
@@ -65,7 +58,31 @@ class MyRobot(wpilib.TimedRobot):
     def robotPeriodic(self):
         return True
     
+    # left bumper = intake
+    # right bumper = eject
+    # y = AimUp
+    # a = AimDown
     def teleopPeriodic(self):
+
+        if self.operator.xboxController.getYButtonPressed():
+            self.launcher.aimUp()
+
+        if self.operator.xboxController.getLeftBumper():
+            self.launcher.intake()
+        else:
+            self.launcher.stop()
+
+        if self.operator.xboxController.getAButtonPressed():
+            self.launcher.aimDown()
+
+        #called once when button is released, which gets the launcher into ejecting mode
+        if self.operator.xboxController.getRightBumperReleased():
+            self.launcher.startEject()
+
+        #if in ejecting mode, run the eject function
+        if self.launcher.inEjectingPhase:
+            self.launcher.eject()
+
         return
     
     def teleopDrivetrain(self):
